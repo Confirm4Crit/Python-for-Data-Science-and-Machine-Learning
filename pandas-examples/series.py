@@ -17,7 +17,7 @@ import pandas as pd
 labels = ['a', 'b', 'c']
 my_list = [10, 20, 30]
 arr = np.array([10, 20, 30])
-d = {'a': 10, 'b': 20, 'c': 30}
+myDict = {'a': 10, 'b': 20, 'c': 30}
 
 #%% [markdown]
 # ** Using Lists**
@@ -47,7 +47,7 @@ pd.Series(arr, labels)
 # ** Dictionary**
 
 #%%
-pd.Series(d)
+pd.Series(myDict)
 
 #%% [markdown]
 # ### Data in a Series
