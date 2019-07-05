@@ -1,35 +1,35 @@
-#%% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
+#%% Change working directory from the workspace root to the ipynb
+# file location.
+# Turn this addition off with the DataScience.changeDirOnImportExport setting
 # ms-python.python added
 import os
+
 try:
     os.chdir(os.path.join(os.getcwd(), 'pandas-examples'))
     print(os.getcwd())
 except:
     pass
 #%% [markdown]
-# ___
-#
-# <a href='http://www.pieriandata.com'> <img src='../Pierian_Data_Logo.png' /></a>
-# ___
 #%% [markdown]
 # # DataFrames
 #
-# DataFrames are the workhorse of pandas and are directly inspired by the R programming language. We can think of a DataFrame as a bunch of Series objects put together to share the same index. Let's use pandas to explore this topic!
+# DataFrames are the workhorse of pandas and are directly inspired by the R
+# programming language.
+# We can think of a DataFrame as a bunch of Series objects put together to
+# share the same index. Let's use pandas to explore this topic!
 
 #%%
 import pandas as pd
 import numpy as np
 
-
 #%%
 from numpy.random import randn
-np.random.seed(101)
 
+np.random.seed(101)
 
 #%%
 df = pd.DataFrame(randn(5, 4), index='A B C D E'.split(),
                   columns='W X Y Z'.split())
-
 
 #%%
 df
@@ -42,11 +42,9 @@ df
 #%%
 df['W']
 
-
 #%%
 # Pass a list of column names
 df[['W', 'Z']]
-
 
 #%%
 # SQL Syntax (NOT RECOMMENDED!)
@@ -58,31 +56,30 @@ df.W
 #%%
 type(df['W'])
 
+type(df)
+
 #%% [markdown]
 # **Creating a new column:**
-
+# Have to provide vals to new columns
 #%%
 df['new'] = df['W'] + df['Y']
-
 
 #%%
 df
 
 #%% [markdown]
 # ** Removing Columns**
-
+# Axis param needed
 #%%
 df.drop('new', axis=1)
-
 
 #%%
 # Not inplace unless specified!
 df
 
-
 #%%
+# inplace replaces the df
 df.drop('new', axis=1, inplace=True)
-
 
 #%%
 df
@@ -92,6 +89,8 @@ df
 
 #%%
 df.drop('E', axis=0)
+
+df.shape
 
 #%% [markdown]
 # ** Selecting Rows**
@@ -103,7 +102,7 @@ df.loc['A']
 # Or select based off of position instead of label
 
 #%%
-df.iloc[2]
+df.iloc[0]
 
 #%% [markdown]
 # ** Selecting subset of rows and columns **
@@ -111,34 +110,39 @@ df.iloc[2]
 #%%
 df.loc['B', 'Y']
 
-
 #%%
 df.loc[['A', 'B'], ['W', 'Y']]
 
 #%% [markdown]
 # ### Conditional Selection
 #
-# An important feature of pandas is conditional selection using bracket notation, very similar to numpy:
+# An important feature of pandas is conditional selection using bracket
+# notation, very similar to numpy:
 
 #%%
 df
 
-
 #%%
 df > 0
-
 
 #%%
 df[df > 0]
 
+#%%
+df['W'] > 0
 
 #%%
+# Get rows back with true
 df[df['W'] > 0]
 
+#%%
+df['Z'] < 0
 
 #%%
+# Get rows back with true
+df[df['Z'] > 0]
+#%%
 df[df['W'] > 0]['Y']
-
 
 #%%
 df[df['W'] > 0][['Y', 'X']]
@@ -152,40 +156,33 @@ df[(df['W'] > 0) & (df['Y'] > 1)]
 #%% [markdown]
 # ## More Index Details
 #
-# Let's discuss some more features of indexing, including resetting the index or setting it something else. We'll also talk about index hierarchy!
+# Let's discuss some more features of indexing, including resetting the index
+# or setting it something else. We'll also talk about index hierarchy!
 
 #%%
 df
-
 
 #%%
 # Reset to default 0,1...n index
 df.reset_index()
 
-
 #%%
 newind = 'CA NY WY OR CO'.split()
-
 
 #%%
 df['States'] = newind
 
-
 #%%
 df
-
 
 #%%
 df.set_index('States')
 
-
 #%%
 df
 
-
 #%%
 df.set_index('States', inplace=True)
-
 
 #%%
 df
@@ -193,7 +190,8 @@ df
 #%% [markdown]
 # ## Multi-Index and Index Hierarchy
 #
-# Let us go over how to work with Multi-Index, first we'll create a quick example of what a Multi-Indexed DataFrame would look like:
+# Let us go over how to work with Multi-Index, first we'll create a quick
+# example of what a Multi-Indexed DataFrame would look like:
 
 #%%
 # Index Levels
@@ -202,10 +200,8 @@ inside = [1, 2, 3, 1, 2, 3]
 hier_index = list(zip(outside, inside))
 hier_index = pd.MultiIndex.from_tuples(hier_index)
 
-
 #%%
 hier_index
-
 
 #%%
 df = pd.DataFrame(np.random.randn(6, 2), index=hier_index, columns=['A', 'B'])
@@ -217,30 +213,23 @@ df
 #%%
 df.loc['G1']
 
-
 #%%
 df.loc['G1'].loc[1]
-
 
 #%%
 df.index.names
 
-
 #%%
 df.index.names = ['Group', 'Num']
-
 
 #%%
 df
 
-
 #%%
 df.xs('G1')
 
-
 #%%
 df.xs(['G1', 1])
-
 
 #%%
 df.xs(1, level='Num')
